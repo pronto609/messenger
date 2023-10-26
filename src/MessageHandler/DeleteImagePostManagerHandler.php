@@ -32,10 +32,13 @@ class DeleteImagePostManagerHandler implements MessageHandlerInterface
 
     public function __invoke(DeleteImagePost $deleteImagePost)
     {
-        $deletePhotoFile = new DeletePhotoFile($deleteImagePost->getImagePost()->getFilename());
-        $this->messageBus->dispatch($deletePhotoFile);
+        $imagePost = $deleteImagePost->getImagePost();
+        $imagePostFileName = $imagePost->getFilename();
 
-        $this->entityManager->remove($deleteImagePost->getImagePost());
+        $this->entityManager->remove($imagePost);
         $this->entityManager->flush();
+
+        $deletePhotoFile = new DeletePhotoFile($imagePostFileName);
+        $this->messageBus->dispatch($deletePhotoFile);
     }
 }
