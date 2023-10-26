@@ -4,33 +4,36 @@ namespace App\MessageHandler;
 
 use App\Message\AddPonkaToImage;
 use App\Message\DeleteImagePost;
+use App\Message\DeletePhotoFile;
 use App\Photo\PhotoFileManager;
 use App\Photo\PhotoPonkaficator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class DeleteImagePostManagerHandler implements MessageHandlerInterface
 {
     /**
-     * @var PhotoFileManager
-     */
-    private $photoManager;
-    /**
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var MessageBusInterface
+     */
+    private $messageBus;
 
     public function __construct(
-        PhotoFileManager $photoManager,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MessageBusInterface $messageBus
     ) {
-        $this->photoManager = $photoManager;
         $this->entityManager = $entityManager;
+        $this->messageBus = $messageBus;
     }
 
     public function __invoke(DeleteImagePost $deleteImagePost)
     {
-        $this->photoManager->deleteImage($deleteImagePost->getImagePost()->getFilename());
+        $deletePhotoFile = new DeletePhotoFile($deleteImagePost->getImagePost()->getFilename());
+        $this->messageBus->dispatch($deletePhotoFile);
 
         $this->entityManager->remove($deleteImagePost->getImagePost());
         $this->entityManager->flush();
