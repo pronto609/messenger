@@ -3,10 +3,12 @@
 namespace App\Photo;
 
 use App\Entity\ImagePost;
+use App\Message\DeleteImagePost;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class PhotoFileManager
 {
@@ -48,8 +50,9 @@ class PhotoFileManager
         return $newFilename;
     }
 
-    public function deleteImage(string $filename): void
-    {
+    public function deleteImage(
+        string $filename
+    ): void {
         // make it a bit slow
         sleep(3);
 
