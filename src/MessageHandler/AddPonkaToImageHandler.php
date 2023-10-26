@@ -60,7 +60,7 @@ class AddPonkaToImageHandler implements MessageHandlerInterface, LoggerAwareInte
             return;
         }
 
-        if (rand(0, 10) < 8) {
+        if (rand(0, 10) < 8 || true) {
             throw new \Exception('I failed randomly!!!');
         }
 
