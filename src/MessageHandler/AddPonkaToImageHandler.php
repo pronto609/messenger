@@ -44,6 +44,7 @@ class AddPonkaToImageHandler implements MessageHandlerInterface
         );
         $this->photoManager->update($addPonkaToImage->getImagePost()->getFilename(), $updatedContents);
         $addPonkaToImage->getImagePost()->markAsPonkaAdded();
+        $this->entityManager->persist($addPonkaToImage->getImagePost());
         $this->entityManager->flush();
         /*
          * You've been Ponkafied!
