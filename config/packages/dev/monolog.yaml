@@ -7,7 +7,7 @@ monolog:
             channels: ["!event"]
         messenger:
             type: stream
-            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            path: "%kernel.logs_dir%/messenger.log"
             level: debug
             channels: ["messenger_audit"]
         # uncomment to get logging in your browser
