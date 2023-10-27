@@ -6,9 +6,10 @@ use App\Message\Command\DeleteImagePost;
 use App\Message\Event\ImagePostDeletedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class DeleteImagePostManagerHandler implements MessageHandlerInterface
+class DeleteImagePostManagerHandler implements MessageSubscriberInterface
 {
     /**
      * @var EntityManagerInterface
@@ -36,5 +37,13 @@ class DeleteImagePostManagerHandler implements MessageHandlerInterface
         $this->entityManager->flush();
 
         $this->eventBus->dispatch(new ImagePostDeletedEvent($imagePostFileName));
+    }
+
+    public static function getHandledMessages(): iterable
+    {
+        yield DeleteImagePost::class => [
+            'method' => '__invoke',
+            'priority' => 10
+        ];
     }
 }
