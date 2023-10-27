@@ -3,12 +3,10 @@
 namespace App\Photo;
 
 use App\Entity\ImagePost;
-use App\Message\DeleteImagePost;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 class PhotoFileManager
 {
