@@ -65,7 +65,7 @@ class ExternalJsonMessengerSerializer implements SerializerInterface
         if (isset($headers['stamps'])) {
             $stamps = unserialize($headers['stamps']);
         }
-        $envelope->with(... $stamps);
+        $envelope->with(...$stamps);
 
         //needed only if you need this to be sent through  the non-default bus
         $envelope->with(new BusNameStamp('command.bus'));
